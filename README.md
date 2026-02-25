@@ -78,19 +78,16 @@ cd ai-jobagent-cli
 ```bash
 ollama pull YourModelName
 ```
-
-> [!NOTE]  
-> **Modelfile anpassen** > The `Modelfile` needs to be adjusted for the desired model.  
-> Change the first line `FROM llama3.1` to `FROM YourModelName`
+  _(Note: The `Modelfile` needs to be adjusted for the desired model.Change the first line `FROM llama3.1` to `FROM YourModelName`)_
 
 4. Build the custom model persona (this reads the `Modelfile` in your current directory):
 ```bash
 ollama create jobagent -f Modelfile
 ```
 
-5. Copy the `masterprofile_template.md` to `masterprofile.md` and fill in your actual data. 
-   _(Note: `masterprofile.md` is `.gitignore`d to protect your data)._
-6. Run the CLI:
+5. Copy the `masterprofile_template.md` to `masterprofile.md` and fill in your actual data. </br>
+   _(Note: `masterprofile.md` is `.gitignore`d to protect your data. You need to create it.)_
+7. Run the CLI:
 ```bash
 python chat.py
 ```
