@@ -80,6 +80,7 @@ ollama pull YourModelName
 ```
 
 > [!info] Modelfile
+> 
 >  The `Modelfile` needs to be adjusted for the desired model.
 >  Change the first line `FROM llama3.1` to `FROM YourModelName`
 
