@@ -79,10 +79,9 @@ cd ai-jobagent-cli
 ollama pull YourModelName
 ```
 
-> [!info] Modelfile
-> 
->  The `Modelfile` needs to be adjusted for the desired model.
->  Change the first line `FROM llama3.1` to `FROM YourModelName`
+> [!NOTE]  
+> **Modelfile anpassen** > The `Modelfile` needs to be adjusted for the desired model.  
+> Change the first line `FROM llama3.1` to `FROM YourModelName`
 
 4. Build the custom model persona (this reads the `Modelfile` in your current directory):
 ```bash
