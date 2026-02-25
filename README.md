@@ -69,8 +69,8 @@ This project is currently tailored to the **DACH job market** and uses **German*
 
 1. Clone the repository and navigate into the project directory:
 ```bash
-git clone <your-repo-url>
-cd <repository-folder>
+git clone https://github.com/BVaduva/ai-jobagent-cli.git
+cd ai-jobagent-cli
 ```
 
 2. Ensure [Ollama](https://ollama.com/) is installed and running on your system.
