@@ -24,9 +24,9 @@ if os.path.exists(profile_path):
 
     injection = f"Hier ist mein aktuelles Masterprofil als Hintergrundwissen. Nutze diese Fakten ab sofort für alle Jobchecks:\n\n{profile_text}"
     system_messages.append({"role": "system", "content": injection})
-    print(f"{COLOR_AI}✓ Masterprofil ({len(profile_text)} Zeichen) erfolgreich ins Gedächtnis geladen.{COLOR_RESET}")
+    print(f"{COLOR_AI}✅  Masterprofil ({len(profile_text)} Zeichen) erfolgreich ins Gedächtnis geladen.{COLOR_RESET}")
 else:
-    print(f"{COLOR_USER}⚠ Warnung: Keine '{profile_path}' gefunden. Chatte ohne Profil-Kontext.{COLOR_RESET}")
+    print(f"{COLOR_USER}⚠️ Warnung: Keine '{profile_path}' gefunden. Chatte ohne Profil-Kontext.{COLOR_RESET}")
 
 print(f"{COLOR_AI}--- JobAgent Chat ('exit' to quit) ---{COLOR_RESET}")
 
@@ -41,15 +41,15 @@ while True:
 
     if user_input.lower().startswith("/check "):
         url = user_input[7:].strip()
-        print(f"{COLOR_AI}⚙️ Lade Scraper...{COLOR_RESET}")
+        print(f"{COLOR_AI} Lade Scraper...{COLOR_RESET}")
         
         job_description = get_job_description(url)
         
         if job_description:
             user_input = job_description
-            print(f"{COLOR_AI}✓ Job-Daten an Agent übergeben. Analyse läuft...{COLOR_RESET}")
+            print(f"{COLOR_AI}✅  Job-Daten an Agent übergeben. Analyse läuft...{COLOR_RESET}")
         else:
-            print(f"{COLOR_USER}⚠ Fehler: Der Scraper konnte keine Daten finden.{COLOR_RESET}")
+            print(f"{COLOR_USER}⚠️ Fehler: Der Scraper konnte keine Daten finden.{COLOR_RESET}")
             continue
 
     current_messages.append({"role": "user", "content": user_input})

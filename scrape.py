@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import os
 
 def get_job_description(url):
-    print(f"Rufe Seite ab... ⏳")
+    print(f"Rufe Seite ab...")
     
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -16,7 +16,7 @@ def get_job_description(url):
         response = requests.get(url, headers=headers)
         response.raise_for_status()
     except requests.exceptions.RequestException as e:
-        print(f"❌ Fehler beim Abrufen der Seite: {e}")
+        print(f"⚠ Fehler beim Abrufen der Seite: {e}")
         return None
 
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -68,7 +68,7 @@ def get_job_description(url):
 
 if __name__ == "__main__":
     print("\n" + "="*40)
-    print("🚀 Ultimate Jobcheck Scraper (Loop Mode)")
+    print("Jobcheck Scraper (Loop Mode)")
     print("="*40)
     print("Tippe 'exit' ein oder drücke Strg+C zum Beenden.\n")
     
@@ -77,7 +77,7 @@ if __name__ == "__main__":
             user_url = input("🔗 Füge den Stepstone-Link hier ein (ohne Anführungszeichen!):\n> ").strip()
             
             if user_url.lower() in ['exit', 'quit', 'q']:
-                print("Scraper beendet. Viel Erfolg bei der Bewerbung! 🚀\n")
+                print("Scraper beendet. Viel Erfolg bei der Bewerbung! \n")
                 break
                 
             if not user_url:
@@ -87,7 +87,7 @@ if __name__ == "__main__":
             print("-" * 50)
             
         except KeyboardInterrupt:
-            print("\nScraper durch Strg+C beendet. Bis zum nächsten Mal! 👋\n")
+            print("\nScraper durch Strg+C beendet. Bis zum nächsten Mal! \n")
             break
         except Exception as e:
             print(f"❌ Ein unerwarteter Fehler ist aufgetreten: {e}\n")
