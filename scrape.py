@@ -1,23 +1,30 @@
 import json
 import re
-import requests
 from bs4 import BeautifulSoup
+import pyperclip
 import os
+from curl_cffi import requests 
 
 def get_job_description(url):
-    print(f"Rufe Seite ab...")
-    
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7"
-    }
+    match = re.search(r'([0-9]{7,10})-inline\.html', url)
+    if match:
+        job_id = match.group(1)
+        url = f"https://www.stepstone.de/stellenangebote----{job_id}-inline.html"
+        print(f"Link bereinigt (Job-ID: {job_id}) 🛠️")
+
+    print("Rufe Seite ab... ⏳")
     
     try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-    except requests.exceptions.RequestException as e:
-        print(f"⚠ Fehler beim Abrufen der Seite: {e}")
-        return None
+        response = requests.get(url, impersonate="chrome", timeout=15)
+        
+        if response.status_code != 200:
+            print(f"❌ Fehler: Stepstone hat mit Statuscode {response.status_code} geantwortet.")
+            return
+            
+    except Exception as e:
+        print(f"❌ Fehler: Netzwerk-Timeout oder Blockade.")
+        print(f"Details: {e}")
+        return
 
     soup = BeautifulSoup(response.text, 'html.parser')
     json_scripts = soup.find_all('script', type='application/ld+json')
@@ -46,38 +53,40 @@ def get_job_description(url):
                 
                 job_text = f"Titel: {title}\nUnternehmen: {company}\n\nBeschreibung:\n{clean_text.strip()}"
                 
-                jobcheck_path = 'jobcheck_prompt.md'
+                template_path = 'prompt_template.md'
                 
-                if os.path.exists(jobcheck_path):
-                    with open(jobcheck_path, 'r', encoding='utf-8') as file:
+                if os.path.exists(template_path):
+                    with open(template_path, 'r', encoding='utf-8') as file:
                         template_content = file.read()
                     
                     final_prompt = template_content.replace('[Hier Stellenanzeige einfügen]', job_text)
-                    print(f"✅ Job gefunden: {title} bei {company}")
-                    return final_prompt
+                    pyperclip.copy(final_prompt)
+                    
+                    print(f"✅ MEGA! Job gefunden: {title} bei {company}")
+                    print("Prompt ist in der ZWISCHENABLAGE. Du kannst ihn direkt einfügen (Strg+V).\n")
                 else:
-                    print(f"✅ Job gefunden: {title} bei {company}")
-                    print("⚠️ 'jobcheck_prompt.md' fehlt. Gebe nur rohen Jobtext an KI weiter.")
-                    return job_text
+                    pyperclip.copy(job_text)
+                    print("\n⚠️ 'prompt_template.md' fehlt. Nur Jobtext wurde kopiert.\n")
+                
+                return
                 
         except json.JSONDecodeError:
             continue
 
     print("❌ Keine strukturierte Job-Beschreibung gefunden.\n")
-    return None
 
 if __name__ == "__main__":
     print("\n" + "="*40)
-    print("Jobcheck Scraper (Loop Mode)")
+    print("🚀 Ultimate Jobcheck Scraper (Stealth Mode)")
     print("="*40)
     print("Tippe 'exit' ein oder drücke Strg+C zum Beenden.\n")
     
     while True:
         try:
-            user_url = input("🔗 Füge den Stepstone-Link hier ein (ohne Anführungszeichen!):\n> ").strip()
+            user_url = input("🔗 Füge den Stepstone-Link hier ein:\n> ").strip()
             
             if user_url.lower() in ['exit', 'quit', 'q']:
-                print("Scraper beendet. Viel Erfolg bei der Bewerbung! \n")
+                print("Scraper beendet. Viel Erfolg bei der Bewerbung! 🚀\n")
                 break
                 
             if not user_url:
@@ -87,7 +96,7 @@ if __name__ == "__main__":
             print("-" * 50)
             
         except KeyboardInterrupt:
-            print("\nScraper durch Strg+C beendet. Bis zum nächsten Mal! \n")
+            print("\nScraper durch Strg+C beendet. Bis zum nächsten Mal! 👋\n")
             break
         except Exception as e:
             print(f"❌ Ein unerwarteter Fehler ist aufgetreten: {e}\n")
