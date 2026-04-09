@@ -17,7 +17,7 @@ Job postings are often bloated with buzzwords. As a Junior/Mid-level developer, 
 
 This tool uses a strictly local workflow to ensure **100% Data Privacy** (no CV data is sent to cloud APIs).
 
-* **Language:** Python 3 (`BeautifulSoup4`, `requests`)
+* **Language:** Python 3 (`BeautifulSoup4`, `curl_cffi`)
 * **LLM Engine:** Local Ollama (I tried `Llama 3.1 8B` and `qwen2.5 7B`)
 * **Context (RAG):** Markdown-based Context Injection
 
@@ -45,7 +45,7 @@ A smarter model (32B/70B) would fix this, but it requires too much RAM/VRAM and 
 Using a cloud API (like OpenAI or Google) would easily solve the reasoning and hardware issues, but it would completely violate the core design goal of this tool: 100% data privacy.
 
 ### 4. Scraping Limits (Static vs. Dynamic DOM)
-The lightweight scraper uses `requests` and `BeautifulSoup`. 
+The lightweight scraper uses `curl_cffi` and `BeautifulSoup`. 
 This works for Server-Side Rendered (SSR) pages that embed `JSON-LD` directly in the initial HTML. 
 It fails on heavily protected Single Page Applications (SPAs) like Indeed or LinkedIn, which require JavaScript execution (e.g., via Playwright) or active anti-bot bypasses, which is out of scope for this CLI tool.
 
